@@ -1,17 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+function PostItem(props){
+    const value = props.value;
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    return (<li>{value}</li>);
+}
+
+function PostList(props){
+    const posts = props.posts;
+    return(
+        <ul>
+            {posts.map((post) => 
+                <PostItem key={post.id} value={post.title} />
+            )}
+        </ul>
+    );
+}
+
+function PostContents(props){
+    const posts = props.posts;
+    return (
+        posts.map((post)=><div key={post.id}>
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+        </div>)
+    );
+}
+
+
+function Blog(props){
+    const posts= props.posts;
+    const sidebar = <PostList posts={posts}/>;
+    const content = <PostContents posts={posts}/>;
+
+    return(
+        <div>
+            {sidebar}
+            <hr/>
+            {content}
+        </div>
+    );
+}
+
+const posts = [
+                {id: 1, title:'HelloWorld', content: 'tesdksdkmask daksmdkams dmaskdmkas dmsakm' },
+                {id: 2, title:'Titulo 2', content: 'tesdksdkmask daksmdkams dsad sdadsa dsadasd as dmsakm' }];
+ReactDOM.render(<Blog posts={posts}/>,document.getElementById('root'));
